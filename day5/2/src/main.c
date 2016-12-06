@@ -8,6 +8,30 @@
 #define BUFFER_SIZE     64
 #define PASSWORD_LENGTH  8
 #define UNSET           -1
+
+/* Dumb function for printing "animated" output */
+void
+display(int password[]) {
+	int i;
+
+	/* Erase last line of output */
+	for(i=0;i<PASSWORD_LENGTH;i++){
+		printf("\b");
+	}
+
+	/* Print next line */
+	for(i=0;i<PASSWORD_LENGTH;i++){
+		if(password[i] < 0) {
+			printf("_");
+		} else {
+			printf("%X",password[i]);
+		}
+	}
+	/* Flush so we can see output */
+	fflush(stdout);
+}
+
+
 /* Converts hash to a password code */
 int
 decode( char hash[], int dest[] ) {
@@ -21,6 +45,7 @@ decode( char hash[], int dest[] ) {
 
 	if( pos < PASSWORD_LENGTH && dest[pos] == UNSET ) {
 		dest[pos] = (hash[3]>>4) & 0xF;
+		display(dest);
 		return 1;
 	}
 	
@@ -44,6 +69,8 @@ main( int argc, char *argv[] ) {
 	/* Remove trailing newline */
 	input[strcspn(input, "\n")] = 0;
 
+	display(password);
+	
 	/* Begin search */
 	for(i=0, count=0; count<PASSWORD_LENGTH; i++) {
 		/* Concate code with integer */
@@ -56,9 +83,6 @@ main( int argc, char *argv[] ) {
 		count += decode(hash, password);
 	}
 
-	for(i=0;i<PASSWORD_LENGTH;i++){
-		printf("%X",password[i]);
-	}
 	printf("\n");
 	return EXIT_SUCCESS;
 }
