@@ -60,6 +60,7 @@ main( int argc, char *argv[] ) {
 	int password[PASSWORD_LENGTH];
 	unsigned char hash[HASH_SIZE];
 
+	/* Initialize to negative values */
 	for(i=0;i<PASSWORD_LENGTH;i++){password[i]=UNSET;}
 	
 	/* Prompt user for input */

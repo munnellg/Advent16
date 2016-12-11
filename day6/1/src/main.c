@@ -55,23 +55,6 @@ decode() {
 	printf("\n");
 }
 
-void
-display() {
-	int i,j;
-	printf("   ");
-	for(j=0; j<NCHARS; j++) {
-		printf("%2c ", j+ROOT_CHAR);
-	}
-	printf("\n");
-	for(i=0; i<MAX_MESSAGE_WIDTH; i++) {
-		printf("%d: ", i);
-		for(j=0; j<NCHARS; j++) {
-			printf("%2d ", g_freqs[j + i*NCHARS]);
-		}
-		printf("\n");
-	}
-}
-
 int
 main( int argc, char *argv[] ) {
 	FILE *f;
@@ -101,7 +84,6 @@ main( int argc, char *argv[] ) {
 	fclose(f);
 
 	decode();
-/*	display();*/
 	
 	return EXIT_SUCCESS;
 }

@@ -41,29 +41,19 @@ hash_aba(char buf[]) {
 }
 
 int
-swar (uint32_t i) {
-	i = i - ((i >> 1) & 0x55555555);
-	i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
-	return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
-}
-
-int
-n_intersections( uint32_t bv1[], uint32_t bv2[], int len ) {
+has_overlap( uint32_t bv1[], uint32_t bv2[], int len ) {
 	int i;
 	int count;
 	count = 0;
 	for(i=0; i<len; i++) {
-		count += swar(bv1[i] & bv2[i]);
+		count += bv1[i] & bv2[i];
 	}
-	return count;
+	return count > 0;
 }
 
 void
 clear( uint32_t bitvector[], int len ) {
-	int i;
-	for(i=0; i<len; i++) {
-		bitvector[i] = 0;
-	}
+	memset( bitvector, 0, sizeof(*bitvector)*len);
 }
 
 void
@@ -141,7 +131,7 @@ main( int argc, char *argv[] ) {
 
 		/* Newline means end of address. Check if valid */
 		if(c == '\n') {
-			count += n_intersections(bvs[STATE_IN], bvs[STATE_OUT], BITVECTOR_SIZE) > 0; 
+			count += has_overlap(bvs[STATE_IN], bvs[STATE_OUT], BITVECTOR_SIZE); 
 
 			/* Reset states */
 			state = 0;

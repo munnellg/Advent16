@@ -7,7 +7,7 @@
 #define CODE_MAX_LEN   64
 #define CHECKSUM_LEN    5
 #define NCHARS         26
-
+#define ROOT_CHAR     'a'
 struct room {
 	int  id;
 	char code[CODE_MAX_LEN];
@@ -23,9 +23,9 @@ compare( int a, int b, int freq[] ) {
 /* Swap the value of two ints */
 void
 swap( int *a, int *b ) {
-	*a ^= *(b);
-	*b ^= *(a);
-	*a ^= *(b);
+	*a ^= *b;
+	*b ^= *a;
+	*a ^= *b;
 }
 
 /* Build checksum from character frequencies */
@@ -47,7 +47,7 @@ build_checksum( char out[], int counts[] ) {
 
 	/* Ords to chars */
 	for(i=0; i<CHECKSUM_LEN; i++) {
-		out[i] = sorted[i] + 'a';
+		out[i] = sorted[i] + ROOT_CHAR;
 	}
 	out[CHECKSUM_LEN] = '\0';
 }
@@ -60,7 +60,7 @@ checksum( char in[], char out[] ) {
 
 	/* Count frequency of each letter in code */
 	for( c=in; *c!='\0'; c++ ) {
-		ord = *c-'a';
+		ord = *c-ROOT_CHAR;
 		if(ord>=0) {
 			counts[ord]++;
 		}
