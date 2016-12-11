@@ -122,7 +122,7 @@ main( int argc, char *argv[] ) {
 	char command[COMMAND_SIZE];
 
 	if( argc < 2 ) {
-		printf("usage: ./d8p1 FILE\n");
+		printf("usage: ./d8p2 FILE\n");
 		return EXIT_FAILURE;
 	}
 
